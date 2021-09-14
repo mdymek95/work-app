@@ -1,32 +1,41 @@
-const app = {
-  title: 'visible toggle',
-  subtitle: [],
-  buttonTitle: 'show details'
-}
-
-const showDetails = () => {
-  if(app.subtitle.length === 0) {
-    app.subtitle.push('hello widzisz mnie');
-    app.buttonTitle = 'hide details';
-  } else {
-    app.subtitle = [];
-    app.buttonTitle = 'show details';
+class VisibilityToogle extends React.Component {
+  constructor(props){
+    super(props);
+    this.showDetails = this.showDetails.bind(this);
+    this.state = {
+      title: 'visible toogle',
+      subtitle: '',
+      buttonTitle: 'show details'
+    }
   }
-  render();
+
+  showDetails(){
+    if(this.state.subtitle.length === 0){
+      this.setState(() => {
+        return {
+          subtitle: 'hello widzisz mnie',
+          buttonTitle: 'hide details'
+        }
+      });
+    } else {
+      this.setState(() => {
+        return {
+          subtitle: '',
+          buttonTitle: 'show details'
+        }
+      });
+    }
+  };
+  
+  render(){
+    return (
+      <div>
+        <h1>{this.state.title}</h1>
+        <button onClick={this.showDetails}>{this.state.buttonTitle}</button>
+        {this.state.subtitle && <p>{this.state.subtitle}</p>}
+      </div>
+    )
+  }
 }
 
-const appRoot = document.getElementById('app');
-
-const render = () => {
-  const template = (
-    <div>
-      <h1>{app.title}</h1>
-      <button onClick={showDetails}>{app.buttonTitle}</button>
-      {app.subtitle && <p>{app.subtitle}</p>}
-    </div>
-  );
-
-  ReactDOM.render(template, appRoot);
-};
-
-render();
+ReactDOM.render(<VisibilityToogle />, document.getElementById('app'));
